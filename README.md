@@ -1,17 +1,8 @@
-# pomodoro
+# 🍅 Timer Pomodoro
 
-A new Flutter project.
+> Timer Pomodoro é um projeto em densenvolvimento com o objetivo de manter o foco do usuário em suas tarefas.
 
-## Getting Started
+[![Flutter Version](https://img.shields.io/badge/Flutter-v3.41.6-blue.svg)](https://flutter.dev/)
+[![Dart Version](https://img.shields.io/badge/Dart-v3.11.4-blue.svg)](https://dart.dev/)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
