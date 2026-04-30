@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:mobx/mobx.dart';
 part 'home.store.g.dart';
 
@@ -57,6 +58,11 @@ abstract class HomeStoreBase with Store {
         _studyTimer--;
 
         if (_studyTimer < 0) {
+          FlutterRingtonePlayer().playAlarm();
+          Future.delayed(Duration(seconds: 6), () {
+            FlutterRingtonePlayer().stop();
+          });
+
           _isStudyMode = false;
           _studyTimer = 1500;
           _isRunning = false;
@@ -70,6 +76,11 @@ abstract class HomeStoreBase with Store {
         _restTimer--;
 
         if (_restTimer < 0) {
+          FlutterRingtonePlayer().playAlarm();
+          Future.delayed(Duration(seconds: 6), () {
+            FlutterRingtonePlayer().stop();
+          });
+
           _relogio?.cancel();
           _isStudyMode = true;
           _restTimer = 300;
