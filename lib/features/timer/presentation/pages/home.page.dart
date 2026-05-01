@@ -21,23 +21,34 @@ class HomePage extends StatelessWidget {
                   builder: (context) {
                     return Text(
                       store.formattedTime,
-                      style: TextStyle(fontSize: 80),
+                      style: const TextStyle(fontSize: 80),
                     );
                   },
                 ),
-                Observer(
-                  builder: (context) {
-                    return IconButton.filled(
-                      iconSize: 40,
-                      padding: const EdgeInsets.all(16),
-                      onPressed: () {
-                        store.startTimer();
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 20,
+                  children: [
+                    IconButton.filledTonal(
+                      onPressed: () {},
+                      icon: const Icon(Icons.restart_alt),
+                    ),
+                    Observer(
+                      builder: (context) {
+                        return IconButton.filled(
+                          iconSize: 40,
+                          padding: const EdgeInsets.all(16),
+                          onPressed: () {
+                            store.startTimer();
+                          },
+                          icon: store.isRunner
+                              ? const Icon(Icons.pause)
+                              : const Icon(Icons.play_arrow),
+                        );
                       },
-                      icon: store.isRunner
-                          ? const Icon(Icons.pause)
-                          : const Icon(Icons.play_arrow),
-                    );
-                  },
+                    ),
+                    const SizedBox(width: 50),
+                  ],
                 ),
               ],
             ),
