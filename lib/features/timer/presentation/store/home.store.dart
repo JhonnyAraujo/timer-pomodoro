@@ -7,6 +7,15 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 
 // The store-class
 abstract class HomeStoreBase with Store {
+  Timer? _relogio;
+
+  int _isLongRestTimer = 0;
+  int get isLoangRestTimer => _isLongRestTimer;
+
+  @observable
+  int _longRestTimer = 900;
+  int get longRestTimer => _longRestTimer;
+
   @observable
   int _focusTimer = 1500;
   int get focusTimer => _focusTimer;
@@ -30,6 +39,9 @@ abstract class HomeStoreBase with Store {
     if (_isFocusMode) {
       min = _focusTimer ~/ 60;
       sec = _focusTimer % 60;
+    } else if (_isLongRestTimer > 4) {
+      min = _longRestTimer ~/ 60;
+      sec = _longRestTimer % 60;
     } else {
       min = _restTimer ~/ 60;
       sec = _restTimer % 60;
@@ -40,8 +52,6 @@ abstract class HomeStoreBase with Store {
 
     return '$minStr:$secStr';
   }
-
-  Timer? _relogio;
 
   @action
   void startTimer() {
@@ -55,7 +65,7 @@ abstract class HomeStoreBase with Store {
 
     if (_isFocusMode) {
       _relogio = Timer.periodic(const Duration(seconds: 1), (timer) {
-        _focusTimer -= 300;
+        _focusTimer--;
 
         if (_focusTimer < 0) {
           FlutterRingtonePlayer().playAlarm();
@@ -73,19 +83,37 @@ abstract class HomeStoreBase with Store {
 
     if (!_isFocusMode) {
       _relogio = Timer.periodic(const Duration(seconds: 1), (timer) {
-        _restTimer -= 100;
+        if (_isLongRestTimer > 4) {
+          _longRestTimer--;
 
-        if (_restTimer < 0) {
-          FlutterRingtonePlayer().playAlarm();
-          Future.delayed(const Duration(seconds: 6), () {
-            FlutterRingtonePlayer().stop();
-          });
+          if (_longRestTimer < 0) {
+            FlutterRingtonePlayer().playAlarm();
+            Future.delayed(const Duration(seconds: 6), () {
+              FlutterRingtonePlayer().stop();
+            });
 
-          _relogio?.cancel();
-          _isFocusMode = true;
-          _restTimer = 300;
-          _isRunning = false;
-          timer.cancel();
+            _relogio?.cancel();
+            _isFocusMode = true;
+            _longRestTimer = 900;
+            _isRunning = false;
+            _isLongRestTimer = 0;
+            timer.cancel();
+          }
+        } else {
+          _restTimer--;
+
+          if (_restTimer < 0) {
+            FlutterRingtonePlayer().playAlarm();
+            Future.delayed(const Duration(seconds: 6), () {
+              FlutterRingtonePlayer().stop();
+            });
+
+            _relogio?.cancel();
+            _isFocusMode = true;
+            _restTimer = 300;
+            _isRunning = false;
+            timer.cancel();
+          }
         }
       });
     }
