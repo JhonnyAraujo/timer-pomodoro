@@ -55,7 +55,7 @@ abstract class HomeStoreBase with Store {
 
     if (_isFocusMode) {
       _relogio = Timer.periodic(const Duration(seconds: 1), (timer) {
-        _focusTimer--;
+        _focusTimer -= 300;
 
         if (_focusTimer < 0) {
           FlutterRingtonePlayer().playAlarm();
@@ -73,7 +73,7 @@ abstract class HomeStoreBase with Store {
 
     if (!_isFocusMode) {
       _relogio = Timer.periodic(const Duration(seconds: 1), (timer) {
-        _restTimer--;
+        _restTimer -= 100;
 
         if (_restTimer < 0) {
           FlutterRingtonePlayer().playAlarm();
@@ -101,6 +101,9 @@ abstract class HomeStoreBase with Store {
 
   @action
   void nextTimer() {
-    _isFocusMode ? _focusTimer -= 1500 : _restTimer -= 300;
+    _isFocusMode = !_isFocusMode;
+    _focusTimer = 1500;
+    _restTimer = 300;
+    _isRunning = false;
   }
 }

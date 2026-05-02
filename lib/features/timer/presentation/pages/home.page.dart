@@ -49,7 +49,12 @@ class HomePage extends StatelessWidget {
                         );
                       },
                     ),
-                    const SizedBox(width: 50),
+                    IconButton.filledTonal(
+                      onPressed: () {
+                        store.nextTimer();
+                      },
+                      icon: const Icon(Icons.skip_next),
+                    ),
                   ],
                 ),
               ],
