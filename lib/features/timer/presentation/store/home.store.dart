@@ -9,8 +9,9 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 abstract class HomeStoreBase with Store {
   Timer? _relogio;
 
-  int _isLongRestTimer = 0;
-  int get isLoangRestTimer => _isLongRestTimer;
+  @observable
+  int _cycleCount = 0;
+  int get cycleCount => _cycleCount;
 
   @observable
   int _longRestTimer = 900;
@@ -39,7 +40,7 @@ abstract class HomeStoreBase with Store {
     if (_isFocusMode) {
       min = _focusTimer ~/ 60;
       sec = _focusTimer % 60;
-    } else if (_isLongRestTimer > 4) {
+    } else if (_cycleCount == 4 || _cycleCount == 8) {
       min = _longRestTimer ~/ 60;
       sec = _longRestTimer % 60;
     } else {
@@ -76,6 +77,7 @@ abstract class HomeStoreBase with Store {
           _isFocusMode = false;
           _focusTimer = 1500;
           _isRunning = false;
+          _cycleCount++;
           timer.cancel();
         }
       });
@@ -83,7 +85,7 @@ abstract class HomeStoreBase with Store {
 
     if (!_isFocusMode) {
       _relogio = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (_isLongRestTimer > 4) {
+        if (_cycleCount == 4 || _cycleCount == 8) {
           _longRestTimer--;
 
           if (_longRestTimer < 0) {
@@ -96,7 +98,7 @@ abstract class HomeStoreBase with Store {
             _isFocusMode = true;
             _longRestTimer = 900;
             _isRunning = false;
-            _isLongRestTimer = 0;
+            if (_cycleCount == 8) _cycleCount = 0;
             timer.cancel();
           }
         } else {

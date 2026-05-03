@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pomodoro/features/timer/presentation/store/home.store.dart';
+import 'package:pomodoro/features/timer/presentation/widgets/cycle_counter.widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -25,6 +26,17 @@ class HomePage extends StatelessWidget {
                     );
                   },
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Observer(
+                      builder: (context) {
+                        return CycleCounter(cycleCount: store.cycleCount);
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 20,

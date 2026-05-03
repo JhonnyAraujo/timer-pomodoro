@@ -17,6 +17,42 @@ mixin _$HomeStore on HomeStoreBase, Store {
     name: 'HomeStoreBase.formattedTime',
   )).value;
 
+  late final _$_cycleCountAtom = Atom(
+    name: 'HomeStoreBase._cycleCount',
+    context: context,
+  );
+
+  @override
+  int get _cycleCount {
+    _$_cycleCountAtom.reportRead();
+    return super._cycleCount;
+  }
+
+  @override
+  set _cycleCount(int value) {
+    _$_cycleCountAtom.reportWrite(value, super._cycleCount, () {
+      super._cycleCount = value;
+    });
+  }
+
+  late final _$_longRestTimerAtom = Atom(
+    name: 'HomeStoreBase._longRestTimer',
+    context: context,
+  );
+
+  @override
+  int get _longRestTimer {
+    _$_longRestTimerAtom.reportRead();
+    return super._longRestTimer;
+  }
+
+  @override
+  set _longRestTimer(int value) {
+    _$_longRestTimerAtom.reportWrite(value, super._longRestTimer, () {
+      super._longRestTimer = value;
+    });
+  }
+
   late final _$_focusTimerAtom = Atom(
     name: 'HomeStoreBase._focusTimer',
     context: context,
@@ -113,6 +149,18 @@ mixin _$HomeStore on HomeStoreBase, Store {
     );
     try {
       return super.resetTimer();
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void nextTimer() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+      name: 'HomeStoreBase.nextTimer',
+    );
+    try {
+      return super.nextTimer();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
